@@ -1,6 +1,5 @@
 ## Hi there 👋, I'm Jeff
 
-[![GitHub](https://img.shields.io/badge/GitHub-JeffSteinbok-181717?style=flat&logo=github)](https://github.com/JeffSteinbok)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-jeffsteinbok-0A66C2?style=flat&logo=linkedin)](https://linkedin.com/in/jeffsteinbok)
 
 ---

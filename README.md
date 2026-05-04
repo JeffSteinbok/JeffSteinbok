@@ -17,13 +17,7 @@
 
 ### 🐙 OpenClaw / Octo
 
-<img src="https://jeffsteinbok.github.io/assets/images/Octo_small_trimmed.png" width="80" align="right" />
-
 Jeff uses **Octo** as his personal AI assistant, built on [OpenClaw](https://openclaw.ai) — a modular AI assistant framework that connects language models to real-world services through plugins, agents, and channels.
-
-📖 **[See how Octo is set up →](https://jeffsteinbok.github.io/octo-docs/)**
-
-🔌 **[Browse shared plugins →](https://github.com/JeffSteinbok/openclaw-hub)**
 
 | | Project | Description |
 |---|---|---|

@@ -1,9 +1,6 @@
 <div align="center">
-  <img src="https://github.com/JeffSteinbok.png" width="150" style="border-radius: 50%;" alt="Jeff Steinbok" />
 
   # Jeff Steinbok
-
-  **Software engineering manager · Open-source builder · Home-automation tinkerer**
 
   [![GitHub](https://img.shields.io/badge/GitHub-JeffSteinbok-181717?style=flat&logo=github)](https://github.com/JeffSteinbok)
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-jeffsteinbok-0A66C2?style=flat&logo=linkedin)](https://linkedin.com/in/jeffsteinbok)
@@ -11,7 +8,7 @@
 
 ---
 
-### 🚀 Featured Projects
+### �� Featured Projects
 
 | | Project | Description |
 |---|---|---|

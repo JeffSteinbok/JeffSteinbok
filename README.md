@@ -1,6 +1,7 @@
 ## Hi there 👋, I'm Jeff
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-jeffsteinbok-0A66C2?style=flat&logo=linkedin)](https://linkedin.com/in/jeffsteinbok)
+[![Photography](https://img.shields.io/badge/Photography-steinbok.net-4CAF50?style=flat&logo=camera&logoColor=white)](https://www.steinbok.net)
 
 ---
 

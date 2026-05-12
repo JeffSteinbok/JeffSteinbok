@@ -25,7 +25,7 @@
 | 🧩 | [**carapace-plugin-template**](https://github.com/JeffSteinbok/carapace-plugin-template) | Starter template for new plugins — clone and go. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-plugin-template?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-plugin-template/stargazers) |
 | 📈 | [**carapace-stock-quotes**](https://github.com/JeffSteinbok/carapace-stock-quotes) | Stock, ETF & mutual fund quotes — Yahoo Finance + Finnhub. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-stock-quotes?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-stock-quotes/stargazers) |
 | 📬 | [**carapace-mail-runtime**](https://github.com/JeffSteinbok/carapace-mail-runtime) | Provider-agnostic mail processing — rule engine, actions & dispatch. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-mail-runtime?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-mail-runtime/stargazers) |
-| 📦 | [**carapace-package-tracking**](https://github.com/JeffSteinbok/carapace-package-tracking) | Package tracking — UPS, FedEx, USPS, Amazon. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-package-tracking?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-package-tracking/stargazers) |
+| 📦 | [**carapace-package-tracking**](https://github.com/JeffSteinbok/carapace-package-tracking) | Package tracking — UPS, FedEx, USPS. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-package-tracking?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-package-tracking/stargazers) |
 
 ### 🐙 OpenClaw / Octo
 

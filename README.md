@@ -15,14 +15,19 @@
 | <img src="https://raw.githubusercontent.com/JeffSteinbok/jeffpardy/main/jeffpardylogo.jpg" width="20" /> | [**Jeffpardy**](https://github.com/JeffSteinbok/jeffpardy) | A trivia game platform built with TypeScript. [▶️ Play it here!](https://jeffpardy.azurewebsites.net) — get an AI to generate you some questions. Full prompt is provided at the site. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/jeffpardy?style=flat&color=gold)](https://github.com/JeffSteinbok/jeffpardy/stargazers) |
 | <img src="https://raw.githubusercontent.com/JeffSteinbok/jeffopolydeal/main/public/favicon.png" width="20" /> | [**Jeffopoly Deal**](https://github.com/JeffSteinbok/jeffopolydeal) | A real-time multiplayer Monopoly Deal card game built with React, ASP.NET Core & SignalR. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/jeffopolydeal?style=flat&color=gold)](https://github.com/JeffSteinbok/jeffopolydeal/stargazers) |
 
-### 🐙 OpenClaw / Octo
+### <img src="https://jeffsteinbok.github.io/assets/images/carapace.png" width="24" /> Carapace — OpenClaw Plugin Ecosystem
 
-Jeff uses **Octo** as his personal AI assistant, built on [OpenClaw](https://openclaw.ai) — a modular AI assistant framework that connects language models to real-world services through plugins, agents, and channels.
+**Carapace** is an SDK and a growing collection of plugins for [OpenClaw](https://openclaw.ai), a modular AI assistant framework. Jeff uses **Octo** as his personal AI assistant, powered by these plugins.
 
 | | Project | Description |
 |---|---|---|
-| <img src="https://jeffsteinbok.github.io/assets/images/Octo_small_trimmed.png" width="20" /> | [**Octo Docs**](https://jeffsteinbok.github.io/octo-docs/) | Documentation for Octo — how Jeff has his personal assistant configured. |
-| 🦞 | [**OpenClaw Hub**](https://github.com/JeffSteinbok/openclaw-hub) | OpenClaw services & plugins from my personal assistant that could be useful to others. |
+| 📦 | [**carapace-plugin-sdk**](https://github.com/JeffSteinbok/carapace-plugin-sdk) | SDK for building OpenClaw plugins — types, helpers, CLI generation. [![npm](https://img.shields.io/npm/v/carapace-plugin-sdk?style=flat&color=cb3837)](https://www.npmjs.com/package/carapace-plugin-sdk) |
+| 🧩 | [**carapace-plugin-template**](https://github.com/JeffSteinbok/carapace-plugin-template) | Starter template for new plugins — clone and go. |
+| 📈 | [**carapace-stock-quotes**](https://github.com/JeffSteinbok/carapace-stock-quotes) | Stock, ETF & mutual fund quotes — Yahoo Finance + Finnhub. |
+| 📬 | [**carapace-mail-runtime**](https://github.com/JeffSteinbok/carapace-mail-runtime) | Provider-agnostic mail processing — rule engine, actions & dispatch. |
+| 📦 | [**carapace-package-tracking**](https://github.com/JeffSteinbok/carapace-package-tracking) | Package tracking — UPS, FedEx, USPS, Amazon. |
+| <img src="https://jeffsteinbok.github.io/assets/images/Octo_small_trimmed.png" width="20" /> | [**Octo Docs**](https://jeffsteinbok.github.io/octo-docs/) | How Jeff has Octo configured — plugins, channels & more. |
+| 🦞 | [**openclaw-hub**](https://github.com/JeffSteinbok/openclaw-hub) | More OpenClaw plugins & services from Jeff's assistant. |
 
 ### 🔧 Other Projects / Work in Progress
 

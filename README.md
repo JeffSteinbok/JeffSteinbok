@@ -17,15 +17,22 @@
 
 ### <img src="https://jeffsteinbok.github.io/assets/images/carapace.png" width="24" /> Carapace — OpenClaw Plugin Ecosystem
 
-**Carapace** is an SDK and a growing collection of plugins for [OpenClaw](https://openclaw.ai), a modular AI assistant framework. Jeff uses **Octo** as his personal AI assistant, powered by these plugins.
+**Carapace** is an SDK and a growing collection of plugins for [OpenClaw](https://openclaw.ai), a modular AI assistant framework that connects language models to real-world services.
+
+| | Project | Description | |
+|---|---|---|---|
+| 📦 | [**carapace-plugin-sdk**](https://github.com/JeffSteinbok/carapace-plugin-sdk) | SDK for building OpenClaw plugins — types, helpers, CLI generation. [![npm](https://img.shields.io/npm/v/carapace-plugin-sdk?style=flat&color=cb3837)](https://www.npmjs.com/package/carapace-plugin-sdk) | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-plugin-sdk?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-plugin-sdk/stargazers) |
+| 🧩 | [**carapace-plugin-template**](https://github.com/JeffSteinbok/carapace-plugin-template) | Starter template for new plugins — clone and go. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-plugin-template?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-plugin-template/stargazers) |
+| 📈 | [**carapace-stock-quotes**](https://github.com/JeffSteinbok/carapace-stock-quotes) | Stock, ETF & mutual fund quotes — Yahoo Finance + Finnhub. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-stock-quotes?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-stock-quotes/stargazers) |
+| 📬 | [**carapace-mail-runtime**](https://github.com/JeffSteinbok/carapace-mail-runtime) | Provider-agnostic mail processing — rule engine, actions & dispatch. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-mail-runtime?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-mail-runtime/stargazers) |
+| 📦 | [**carapace-package-tracking**](https://github.com/JeffSteinbok/carapace-package-tracking) | Package tracking — UPS, FedEx, USPS, Amazon. | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/carapace-package-tracking?style=flat&color=gold)](https://github.com/JeffSteinbok/carapace-package-tracking/stargazers) |
+
+### 🐙 OpenClaw / Octo
+
+Jeff uses **Octo** as his personal AI assistant, built on [OpenClaw](https://openclaw.ai) and powered by Carapace plugins.
 
 | | Project | Description |
 |---|---|---|
-| 📦 | [**carapace-plugin-sdk**](https://github.com/JeffSteinbok/carapace-plugin-sdk) | SDK for building OpenClaw plugins — types, helpers, CLI generation. [![npm](https://img.shields.io/npm/v/carapace-plugin-sdk?style=flat&color=cb3837)](https://www.npmjs.com/package/carapace-plugin-sdk) |
-| 🧩 | [**carapace-plugin-template**](https://github.com/JeffSteinbok/carapace-plugin-template) | Starter template for new plugins — clone and go. |
-| 📈 | [**carapace-stock-quotes**](https://github.com/JeffSteinbok/carapace-stock-quotes) | Stock, ETF & mutual fund quotes — Yahoo Finance + Finnhub. |
-| 📬 | [**carapace-mail-runtime**](https://github.com/JeffSteinbok/carapace-mail-runtime) | Provider-agnostic mail processing — rule engine, actions & dispatch. |
-| 📦 | [**carapace-package-tracking**](https://github.com/JeffSteinbok/carapace-package-tracking) | Package tracking — UPS, FedEx, USPS, Amazon. |
 | <img src="https://jeffsteinbok.github.io/assets/images/Octo_small_trimmed.png" width="20" /> | [**Octo Docs**](https://jeffsteinbok.github.io/octo-docs/) | How Jeff has Octo configured — plugins, channels & more. |
 | 🦞 | [**openclaw-hub**](https://github.com/JeffSteinbok/openclaw-hub) | More OpenClaw plugins & services from Jeff's assistant. |
 

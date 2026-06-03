@@ -40,5 +40,6 @@ Jeff uses **Octo** as his personal AI assistant, built on [OpenClaw](https://ope
 
 | | Project | Description |
 |---|---|---|
+| 🗂️ | [**obsidian-onedrive**](https://github.com/JeffSteinbok/obsidian-onedrive) | Sync your Obsidian vault with OneDrive Personal/Consumer. |
 | 🔔 | [**hass-uiprotectalarms**](https://github.com/JeffSteinbok/hass-uiprotectalarms) | HomeAssistant plugin for enabling/disabling Unifi Protect alarms. |
 | 📄 | [**RemarkableSync**](https://github.com/JeffSteinbok/RemarkableSync) | Sync Remarkable to PDF. |

@@ -21,15 +21,7 @@ env:
   REPOS: |
     hass-dreo
     obsidian-onedrive
-    ghcpCliDashboard
-    hass-uiprotectalarms
     reMarkableSync
-    carapace-mail-runtime
-    carapace-obsidian
-    carapace-plugin-sdk
-    carapace-stock-quotes
-    carapace-package-tracking
-    octo-satellite
 
 jobs:
   find-and-assign:
@@ -206,7 +198,7 @@ jobs:
           fi
           
           if [ "$PROCESSED" == "0" ]; then
-            DESCRIPTION="No new triaged issues across 11 repos in the last 24 hours.\\n\\nThe workflow is running normally. ✅"
+            DESCRIPTION="No new triaged issues across 3 repos in the last 24 hours.\\n\\nThe workflow is running normally. ✅"
           else
             ISSUE_LIST=$(echo "$CANDIDATES" | jq -r '.[] | "• [\\(.repo)#\\(.number)](<https://github.com/JeffSteinbok/\\(.repo)/issues/\\(.number)>) - \\(.title)"' | head -15)
             DESCRIPTION="**Assigned Copilot to $PROCESSED issue(s):**\\n\\n$ISSUE_LIST"

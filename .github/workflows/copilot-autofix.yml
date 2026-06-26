@@ -1,0 +1,217 @@
+name: Copilot Auto-Fix Triaged Issues
+
+on:
+  schedule:
+    # Run every day at 8 AM UTC (1 AM PST / 4 AM EST)
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run - only list issues, do not assign Copilot'
+        required: false
+        default: 'false'
+        type: boolean
+      max_issues_per_repo:
+        description: 'Maximum issues to process per repo'
+        required: false
+        default: '3'
+        type: string
+
+env:
+  REPOS: |
+    hass-dreo
+    obsidian-onedrive
+    ghcpCliDashboard
+    hass-uiprotectalarms
+    reMarkableSync
+    carapace-mail-runtime
+    carapace-obsidian
+    carapace-plugin-sdk
+    carapace-stock-quotes
+    carapace-package-tracking
+    octo-satellite
+
+jobs:
+  find-and-assign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find triaged issues and assign Copilot across repos
+        id: assign
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.COPILOT_PAT }}
+          script: |
+            const owner = 'JeffSteinbok';
+            const maxPerRepo = parseInt('${{ inputs.max_issues_per_repo }}' || '3');
+            const dryRun = '${{ inputs.dry_run }}' === 'true';
+            
+            const repos = `${{ env.REPOS }}`.trim().split('\n').map(r => r.trim()).filter(r => r);
+            
+            // Calculate 24 hours ago
+            const oneDayAgo = new Date();
+            oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+            
+            console.log(`Scanning ${repos.length} repos for triaged issues`);
+            console.log(`Looking for issues triaged since ${oneDayAgo.toISOString()}`);
+            console.log(`Max issues per repo: ${maxPerRepo}`);
+            console.log(`Dry run: ${dryRun}\n`);
+            
+            const allCandidates = [];
+            const repoSummaries = [];
+            
+            for (const repo of repos) {
+              console.log(`\n📦 Checking ${repo}...`);
+              
+              try {
+                // Find open issues with "triaged" label
+                const issues = await github.rest.issues.listForRepo({
+                  owner,
+                  repo,
+                  state: 'open',
+                  labels: 'triaged',
+                  sort: 'updated',
+                  direction: 'desc',
+                  per_page: 20
+                });
+                
+                const candidates = [];
+                
+                for (const issue of issues.data) {
+                  if (issue.pull_request) continue;
+                  
+                  // Check if issue was recently triaged
+                  const events = await github.rest.issues.listEvents({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    per_page: 50
+                  });
+                  
+                  const triagedEvent = events.data.find(e => 
+                    e.event === 'labeled' && 
+                    e.label?.name === 'triaged'
+                  );
+                  
+                  if (!triagedEvent) continue;
+                  
+                  const triagedAt = new Date(triagedEvent.created_at);
+                  if (triagedAt < oneDayAgo) continue;
+                  
+                  // Check if Copilot already assigned
+                  const isCopilotAssigned = issue.assignees?.some(a => 
+                    a.login.toLowerCase().includes('copilot')
+                  );
+                  if (isCopilotAssigned) continue;
+                  
+                  // Check for existing linked PR
+                  const timeline = await github.rest.issues.listEventsForTimeline({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    per_page: 100
+                  });
+                  
+                  const hasLinkedPR = timeline.data.some(e => 
+                    e.event === 'cross-referenced' && 
+                    e.source?.issue?.pull_request
+                  );
+                  if (hasLinkedPR) continue;
+                  
+                  candidates.push({
+                    repo,
+                    number: issue.number,
+                    title: issue.title,
+                    triagedAt: triagedAt.toISOString()
+                  });
+                  
+                  if (candidates.length >= maxPerRepo) break;
+                }
+                
+                if (candidates.length > 0) {
+                  console.log(`  Found ${candidates.length} candidate(s)`);
+                  allCandidates.push(...candidates);
+                  repoSummaries.push({ repo, count: candidates.length });
+                } else {
+                  console.log(`  No candidates`);
+                }
+                
+              } catch (error) {
+                console.log(`  ⚠️ Error: ${error.message}`);
+              }
+            }
+            
+            console.log(`\n${'='.repeat(50)}`);
+            console.log(`Total candidates: ${allCandidates.length}`);
+            
+            if (dryRun) {
+              console.log('\n🔍 Dry run - not assigning Copilot');
+              for (const c of allCandidates) {
+                console.log(`  • ${c.repo}#${c.number}: ${c.title}`);
+              }
+            } else {
+              let processed = 0;
+              for (const candidate of allCandidates) {
+                try {
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo: candidate.repo,
+                    issue_number: candidate.number,
+                    body: `@copilot Please investigate this issue and create a fix if possible. Check the diagnostics data and any related code.`
+                  });
+                  console.log(`✓ Assigned Copilot to ${candidate.repo}#${candidate.number}`);
+                  processed++;
+                  await new Promise(r => setTimeout(r, 2000));
+                } catch (error) {
+                  console.error(`✗ Failed ${candidate.repo}#${candidate.number}: ${error.message}`);
+                }
+              }
+              console.log(`\nProcessed ${processed} issues`);
+            }
+            
+            core.setOutput('processed', allCandidates.length);
+            core.setOutput('candidates', JSON.stringify(allCandidates));
+            core.setOutput('summaries', JSON.stringify(repoSummaries));
+
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          PROCESSED="${{ steps.assign.outputs.processed }}"
+          CANDIDATES='${{ steps.assign.outputs.candidates }}'
+          SUMMARIES='${{ steps.assign.outputs.summaries }}'
+          DRY_RUN="${{ inputs.dry_run }}"
+          DAY_OF_WEEK=$(date +%u)  # 1=Monday, 7=Sunday
+          
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "No Discord webhook configured, skipping notification"
+            exit 0
+          fi
+          
+          # Notify if: issues processed, dry run, or Monday heartbeat
+          if [ "$PROCESSED" == "0" ] && [ "$DRY_RUN" != "true" ] && [ "$DAY_OF_WEEK" != "1" ]; then
+            echo "No issues processed and not Monday - skipping notification"
+            exit 0
+          fi
+          
+          # Build message
+          if [ "$DRY_RUN" == "true" ]; then
+            TITLE="🔍 Copilot Auto-Fix (Dry Run)"
+            COLOR=16776960
+          elif [ "$PROCESSED" == "0" ]; then
+            TITLE="📊 Copilot Auto-Fix (Weekly Summary)"
+            COLOR=3447003
+          else
+            TITLE="🤖 Copilot Auto-Fix"
+            COLOR=5763719
+          fi
+          
+          if [ "$PROCESSED" == "0" ]; then
+            DESCRIPTION="No new triaged issues across 11 repos in the last 24 hours.\\n\\nThe workflow is running normally. ✅"
+          else
+            ISSUE_LIST=$(echo "$CANDIDATES" | jq -r '.[] | "• [\\(.repo)#\\(.number)](<https://github.com/JeffSteinbok/\\(.repo)/issues/\\(.number)>) - \\(.title)"' | head -15)
+            DESCRIPTION="**Assigned Copilot to $PROCESSED issue(s):**\\n\\n$ISSUE_LIST"
+          fi
+          
+          curl -H "Content-Type: application/json" \
+            -d "{\"embeds\": [{\"title\": \"$TITLE\", \"description\": \"$DESCRIPTION\", \"color\": $COLOR}]}" \
+            "$DISCORD_WEBHOOK"

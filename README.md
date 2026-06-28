@@ -42,5 +42,5 @@ Jeff uses **Octo** as his personal AI assistant, built on [OpenClaw](https://ope
 
 | | Project | Description | |
 |---|---|---|---|
-| <img src="https://raw.githubusercontent.com/JeffSteinbok/agenteye/main/logo.png" width="20" /> | [**Agent Eye**](https://github.com/JeffSteinbok/agenteye) | Dashboard to track your currently running GitHub Copilot active and recent sessions. <br> [![PyPI](https://img.shields.io/pypi/v/ghcp-cli-dashboard?style=flat&logo=pypi&color=orange)](https://pypi.org/project/ghcp-cli-dashboard/) | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/agenteye?style=flat&color=gold)](https://github.com/JeffSteinbok/agenteye/stargazers) |
+| <img src="https://raw.githubusercontent.com/JeffSteinbok/agenteye/main/logo.png" width="20" /> | [**Agent Eye**](https://github.com/JeffSteinbok/agenteye) | Dashboard to track your currently running GitHub Copilot active and recent sessions. <br> [![PyPI](https://img.shields.io/pypi/v/agenteye-app?style=flat&logo=pypi&color=orange)](https://pypi.org/project/agenteye-app/) | [![GitHub stars](https://img.shields.io/github/stars/JeffSteinbok/agenteye?style=flat&color=gold)](https://github.com/JeffSteinbok/agenteye/stargazers) |
 | 🔔 | [**hass-uiprotectalarms**](https://github.com/JeffSteinbok/hass-uiprotectalarms) | HomeAssistant plugin for enabling/disabling Unifi Protect alarms. | |

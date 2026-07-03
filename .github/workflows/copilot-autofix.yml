@@ -34,6 +34,7 @@ jobs:
           github-token: ${{ secrets.REPO_AUTOMATION_PAT }}
           script: |
             const owner = 'JeffSteinbok';
+            const copilotAssignee = 'Copilot';
             const maxPerRepo = parseInt('${{ inputs.max_issues_per_repo }}' || '3');
             const dryRun = '${{ inputs.dry_run }}' === 'true';
             
@@ -91,7 +92,7 @@ jobs:
                   
                   // Check if Copilot already assigned
                   const isCopilotAssigned = issue.assignees?.some(a => 
-                    a.login.toLowerCase().includes('copilot')
+                    a.login.toLowerCase() === copilotAssignee.toLowerCase()
                   );
                   if (isCopilotAssigned) continue;
                   
@@ -134,6 +135,7 @@ jobs:
             
             console.log(`\n${'='.repeat(50)}`);
             console.log(`Total candidates: ${allCandidates.length}`);
+            let processed = 0;
             
             if (dryRun) {
               console.log('\n🔍 Dry run - not assigning Copilot');
@@ -141,16 +143,15 @@ jobs:
                 console.log(`  • ${c.repo}#${c.number}: ${c.title}`);
               }
             } else {
-              let processed = 0;
               for (const candidate of allCandidates) {
                 try {
-                  await github.rest.issues.createComment({
+                  await github.rest.issues.addAssignees({
                     owner,
                     repo: candidate.repo,
                     issue_number: candidate.number,
-                    body: `@copilot Please investigate this issue and create a fix if possible. Check the diagnostics data and any related code.`
+                    assignees: [copilotAssignee]
                   });
-                  console.log(`✓ Assigned Copilot to ${candidate.repo}#${candidate.number}`);
+                  console.log(`✓ Assigned ${copilotAssignee} to ${candidate.repo}#${candidate.number}`);
                   processed++;
                   await new Promise(r => setTimeout(r, 2000));
                 } catch (error) {
@@ -160,18 +161,17 @@ jobs:
               console.log(`\nProcessed ${processed} issues`);
             }
             
-            core.setOutput('processed', allCandidates.length);
+            core.setOutput('processed', dryRun ? allCandidates.length : processed);
             core.setOutput('candidates', JSON.stringify(allCandidates));
             core.setOutput('summaries', JSON.stringify(repoSummaries));
 
       - name: Send Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          CANDIDATES_JSON: ${{ steps.assign.outputs.candidates }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           PROCESSED="${{ steps.assign.outputs.processed }}"
-          CANDIDATES='${{ steps.assign.outputs.candidates }}'
-          SUMMARIES='${{ steps.assign.outputs.summaries }}'
-          DRY_RUN="${{ inputs.dry_run }}"
           DAY_OF_WEEK=$(date +%u)  # 1=Monday, 7=Sunday
           
           if [ -z "$DISCORD_WEBHOOK" ]; then
@@ -200,10 +200,16 @@ jobs:
           if [ "$PROCESSED" == "0" ]; then
             DESCRIPTION="No new triaged issues across 3 repos in the last 24 hours.\\n\\nThe workflow is running normally. ✅"
           else
-            ISSUE_LIST=$(echo "$CANDIDATES" | jq -r '.[] | "• [\\(.repo)#\\(.number)](<https://github.com/JeffSteinbok/\\(.repo)/issues/\\(.number)>) - \\(.title)"' | head -15)
+            ISSUE_LIST=$(echo "$CANDIDATES_JSON" | jq -r '.[] | "• [\\(.repo)#\\(.number)](<https://github.com/JeffSteinbok/\\(.repo)/issues/\\(.number)>) - \\(.title)"' | head -15)
             DESCRIPTION="**Assigned Copilot to $PROCESSED issue(s):**\\n\\n$ISSUE_LIST"
           fi
           
-          curl -H "Content-Type: application/json" \
-            -d "{\"embeds\": [{\"title\": \"$TITLE\", \"description\": \"$DESCRIPTION\", \"color\": $COLOR}]}" \
+          PAYLOAD=$(jq -n \
+            --arg title "$TITLE" \
+            --arg description "$DESCRIPTION" \
+            --argjson color "$COLOR" \
+            '{embeds: [{title: $title, description: $description, color: $color}]}')
+          
+          curl -fsS -H "Content-Type: application/json" \
+            -d "$PAYLOAD" \
             "$DISCORD_WEBHOOK"

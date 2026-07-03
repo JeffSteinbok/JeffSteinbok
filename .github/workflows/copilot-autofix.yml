@@ -92,7 +92,7 @@ jobs:
                   
                   // Check if Copilot already assigned
                   const isCopilotAssigned = issue.assignees?.some(a => 
-                    a.login.toLowerCase().includes(copilotAssignee.toLowerCase())
+                    a.login.toLowerCase() === copilotAssignee.toLowerCase()
                   );
                   if (isCopilotAssigned) continue;
                   

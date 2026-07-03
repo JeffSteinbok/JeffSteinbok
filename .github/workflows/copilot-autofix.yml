@@ -210,6 +210,6 @@ jobs:
             --argjson color "$COLOR" \
             '{embeds: [{title: $title, description: $description, color: $color}]}')
           
-          curl -fsS -H "Content-Type: application/json" \
+          curl -sS --fail-with-body -H "Content-Type: application/json" \
             -d "$PAYLOAD" \
             "$DISCORD_WEBHOOK"

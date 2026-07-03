@@ -16,6 +16,11 @@ on:
         required: false
         default: '3'
         type: string
+      copilot_assignee:
+        description: 'Copilot bot assignee login'
+        required: false
+        default: 'Copilot'
+        type: string
 
 env:
   REPOS: |
@@ -34,7 +39,7 @@ jobs:
           github-token: ${{ secrets.REPO_AUTOMATION_PAT }}
           script: |
             const owner = 'JeffSteinbok';
-            const copilotAssignee = 'Copilot';
+            const copilotAssignee = ('${{ inputs.copilot_assignee }}' || 'Copilot').trim();
             const maxPerRepo = parseInt('${{ inputs.max_issues_per_repo }}' || '3');
             const dryRun = '${{ inputs.dry_run }}' === 'true';
             
@@ -159,7 +164,8 @@ jobs:
               console.log(`\nProcessed ${processed} issues`);
             }
             
-            core.setOutput('processed', dryRun ? allCandidates.length : processed);
+            const processedCount = dryRun ? allCandidates.length : processed;
+            core.setOutput('processed', processedCount);
             core.setOutput('candidates', JSON.stringify(allCandidates));
 
       - name: Send Discord notification

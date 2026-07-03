@@ -50,7 +50,6 @@ jobs:
             console.log(`Dry run: ${dryRun}\n`);
             
             const allCandidates = [];
-            const repoSummaries = [];
             
             for (const repo of repos) {
               console.log(`\n📦 Checking ${repo}...`);
@@ -123,7 +122,6 @@ jobs:
                 if (candidates.length > 0) {
                   console.log(`  Found ${candidates.length} candidate(s)`);
                   allCandidates.push(...candidates);
-                  repoSummaries.push({ repo, count: candidates.length });
                 } else {
                   console.log(`  No candidates`);
                 }
@@ -163,7 +161,6 @@ jobs:
             
             core.setOutput('processed', dryRun ? allCandidates.length : processed);
             core.setOutput('candidates', JSON.stringify(allCandidates));
-            core.setOutput('summaries', JSON.stringify(repoSummaries));
 
       - name: Send Discord notification
         env:

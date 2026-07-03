@@ -39,7 +39,7 @@ jobs:
           github-token: ${{ secrets.REPO_AUTOMATION_PAT }}
           script: |
             const owner = 'JeffSteinbok';
-            const copilotAssignee = ('${{ inputs.copilot_assignee }}' || 'Copilot').trim();
+            const copilotAssignee = ('${{ inputs.copilot_assignee }}'.trim() || 'Copilot');
             const maxPerRepo = parseInt('${{ inputs.max_issues_per_repo }}' || '3');
             const dryRun = '${{ inputs.dry_run }}' === 'true';
             
@@ -138,7 +138,7 @@ jobs:
             
             console.log(`\n${'='.repeat(50)}`);
             console.log(`Total candidates: ${allCandidates.length}`);
-            let processed = 0;
+            let processedCount = allCandidates.length;
             
             if (dryRun) {
               console.log('\n🔍 Dry run - not assigning Copilot');
@@ -146,6 +146,7 @@ jobs:
                 console.log(`  • ${c.repo}#${c.number}: ${c.title}`);
               }
             } else {
+              let processed = 0;
               for (const candidate of allCandidates) {
                 try {
                   await github.rest.issues.addAssignees({
@@ -161,10 +162,10 @@ jobs:
                   console.error(`✗ Failed ${candidate.repo}#${candidate.number}: ${error.message}`);
                 }
               }
+              processedCount = processed;
               console.log(`\nProcessed ${processed} issues`);
             }
             
-            const processedCount = dryRun ? allCandidates.length : processed;
             core.setOutput('processed', processedCount);
             core.setOutput('candidates', JSON.stringify(allCandidates));
 
